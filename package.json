@@ -1,0 +1,31 @@
+{
+  "name": "news-explorer-backend",
+  "version": "1.0.0",
+  "description": "server and API for News Explorer ",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skwisgaarr8-9/news-explorer-backend.git"
+  },
+  "author": "Francis Flanagan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skwisgaarr8-9/news-explorer-backend/issues"
+  },
+  "homepage": "https://github.com/skwisgaarr8-9/news-explorer-backend#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.3.3",
+    "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.8.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0"
+  }
+}
