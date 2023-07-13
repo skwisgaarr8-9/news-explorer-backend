@@ -22,6 +22,8 @@ app.use(helmet());
 app.use(limiter);
 
 app.use(routes);
+
+app.use(errors());
 app.use(handleError);
 
 app.listen(PORT, () => {
