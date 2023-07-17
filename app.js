@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
 const { errors } = require('celebrate');
+require('dotenv').config();
 
 const routes = require('./routes/index');
 const { handleError } = require('./utils/handleError');
