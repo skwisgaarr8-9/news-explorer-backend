@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { handleError } = require('./utils/handleError');
 const { limiter } = require('./utils/rateLimiter');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -21,8 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(limiter);
 
+app.use(requestLogger);
 app.use(routes);
 
+app.use(errorLogger);
 app.use(errors());
 app.use(handleError);
 
