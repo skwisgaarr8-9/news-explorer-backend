@@ -9,11 +9,12 @@ const routes = require('./routes/index');
 const { handleError } = require('./utils/handleError');
 const { limiter } = require('./utils/rateLimiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { MONGO_DEV_ADDRESS } = require('./utils/config');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3001, MONGO_ADDRESS, NODE_ENV } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://127.0.0.1:27017/newsexplorer_db');
+mongoose.connect(NODE_ENV === 'production' ? MONGO_ADDRESS : MONGO_DEV_ADDRESS);
 
 app.use(cors());
 
@@ -21,9 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(helmet());
+app.use(requestLogger);
 app.use(limiter);
 
-app.use(requestLogger);
 app.use(routes);
 
 app.use(errorLogger);

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { ConflictError } = require('../utils/errors/ConflictError');
 const { NotFoundError } = require('../utils/errors/NotFoundError');
+const { BadRequestError } = require('../utils/errors/BadRequestError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -18,13 +19,13 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { email, password, username } = req.body;
+  const { email, password, name } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({ email, password: hash, username }))
+    .then((hash) => User.create({ email, password: hash, name }))
     .then((user) => {
       const newUser = {
-        username: user.username,
+        name: user.name,
         email: user.email,
       };
       res.send({ data: newUser });
@@ -32,6 +33,8 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Email already in use'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Invalid data'));
       } else {
         next(err);
       }
